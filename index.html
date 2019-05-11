@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Course</title>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- React.js -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+</head>
+<body>
+
+    <div id="app"></div>
+
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Custom Script -->
+    <script type="text/babel">
+        function Person(props) {
+            return (
+                <div class="person">
+                    <h1>{props.name}</h1>
+                    <p>Age: {props.age}</p>
+                </div>
+            );
+        }
+
+        var app = (
+            <div>
+                <Person name="Ruben" age="20" />
+                <Person name="Jorge" age="24" />
+            </div>
+        );
+
+        ReactDOM.render(app, document.querySelector('#app'));
+    </script>
+</body>
+</html>
