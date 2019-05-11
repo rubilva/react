@@ -1,2 +1,2 @@
-# react
+# React.js
 React.js Course
