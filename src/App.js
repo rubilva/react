@@ -7,8 +7,8 @@ function App() {
   return (
     <div class="App">
       <h1>Hi, I'm a React app!</h1>
-      <Person />
-      <Person />
+      <Person name="Ruben" age="20">Atividade: Estudante de Engenharia</Person>
+      <Person name="João" age="89"/>
     </div>
 
   );
