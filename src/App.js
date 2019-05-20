@@ -1,14 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Person from './Person/Person';
 import StateApp from './StateApp/StateApp'
 
-function App() {
+const App = () => {
+  const [personsState, setPersonsState] = useState({
+    persons: [
+        {name: 'John', age: 6},
+        {name: 'Mario', age: 25}
+    ]
+  });
+
+  const [otherState, setOtherState] = useState('This is the other state!')
+
+  const switchNameHandler = () => {        
+    setPersonsState({persons: [
+        {name: 'Rodrigo', age: 10},
+        {name: 'Gaby', age: 40}
+    ]});
+  }
+
   return (
-    <div className="App">
+  <div className="App">
       <h1>Hi, I'm a React app!</h1>
       <Person name="Ruben" age="20">Atividade: Estudante de Engenharia</Person>
-      <Person name="João" age="89"/>
+      <hr />
+      <button onClick={switchNameHandler}>Switch Name</button>
+      <Person name={personsState.persons[0].name} age={personsState.persons[0].age} />
+      <Person name={personsState.persons[1].name} age={personsState.persons[1].age} />
       <hr />
       <StateApp />
     </div>
