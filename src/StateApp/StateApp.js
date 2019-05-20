@@ -32,19 +32,19 @@ class StateApp extends Component {
 
     switchButtonNameHandler = () => {
         const name = this.state.buttonName;
-        switch(name) {
+        switch (name) {
             case 'Show':
-                this.setState({buttonName: 'Hide'});
+                this.setState({ buttonName: 'Hide' });
                 break;
             case 'Hide':
-                this.setState({buttonName: 'Show'});
+                this.setState({ buttonName: 'Show' });
                 break;
         }
     }
 
     togglePersonsHandler = () => {
         const doesShow = this.state.showPersons;
-        this.setState({showPersons: !doesShow});
+        this.setState({ showPersons: !doesShow });
         this.switchButtonNameHandler();
     }
 
@@ -59,28 +59,33 @@ class StateApp extends Component {
             cursor: 'pointer'
         }
 
+        let persons = null;
+
+        if (this.state.showPersons) {
+            persons = (
+                <div>
+                    <Person
+                        name={this.state.persons[0].name}
+                        age={this.state.persons[0].age}
+                        click={this.switchNameHandler.bind(this, 'Alex')}
+                        changed={this.nameChangedHandler} />
+                    <Person
+                        name={this.state.persons[1].name}
+                        age={this.state.persons[1].age} />
+                </div>
+            );
+        }
+
         return (
             <div>
                 <button
                     style={style}
                     onClick={this.togglePersonsHandler}>{this.state.buttonName} Persons</button>
-                { 
-                    this.state.showPersons ?
-                    <div>
-                        <Person
-                            name={this.state.persons[0].name}
-                            age={this.state.persons[0].age}
-                            click={this.switchNameHandler.bind(this, 'Alex')}
-                            changed={this.nameChangedHandler} />
-                        <Person
-                            name={this.state.persons[1].name}
-                            age={this.state.persons[1].age} />
-                    </div> : null
-                }
-
+                {persons}
             </div>
         );
     }
+
 }
 
 export default StateApp;

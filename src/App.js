@@ -11,7 +11,9 @@ const App = (props) => {
         ]
     });
 
-    //const [otherState, setOtherState] = useState('This is the other state!')
+    const [showPersonState, setShowPersonState] = useState({
+        showPersons: false
+    });
 
     const switchNameHandler = (newName) => {
         setPersonsState({
@@ -22,17 +24,32 @@ const App = (props) => {
         });
     }
 
+    const togglePersonsHandler = () => {
+        const doesShow = showPersonState.showPersons;
+        setShowPersonState({showPersons: !doesShow})
+    }
+
+    let persons = null;
+
+    if (showPersonState.showPersons) {
+        persons = (
+            <div>
+                <Person
+                    name={personsState.persons[0].name}
+                    age={personsState.persons[0].age}
+                    click={() => switchNameHandler('Gaga')} />
+                <Person
+                    name={personsState.persons[1].name}
+                    age={personsState.persons[1].age} />
+            </div>
+        );
+    }
+
     return (
         <div className="App">
             <h1>Stateless App Component</h1>
-            <button onClick={() => switchNameHandler('Dodo')}>Switch Name</button>
-            <Person
-                name={personsState.persons[0].name}
-                age={personsState.persons[0].age}
-                click={() => switchNameHandler('Gaga')} />
-            <Person
-                name={personsState.persons[1].name}
-                age={personsState.persons[1].age} />
+            <button onClick={togglePersonsHandler}>Persons</button>
+            {persons}
             <hr />
             <h1>Stateful App Component</h1>
             <StateApp />
