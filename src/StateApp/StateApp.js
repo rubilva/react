@@ -4,22 +4,30 @@ import Person from '../Person/Person'
 class StateApp extends Component {
     state = {
         persons: [
-            { name: 'Tiago', age: 10 },
-            { name: 'Luis', age: 83 },
-            { name: 'Carlos', age: 21 }
+            {id: 1, name: 'Tiago', age: 10},
+            {id: 2, name: 'Luis', age: 83},
+            {id: 3, name: 'Carlos', age: 21}
         ],
         test: 'Don\'t change',
         showPersons: false,
         buttonName: 'Show'
     }
 
-    nameChangedHandler = (event) => {
-        this.setState({
-            persons: [
-                { name: event.target.value, age: 10 },
-                { name: 'Yve', age: 40 }
-            ]
+    nameChangedHandler = (event, id) => {
+        // Procuramos a pessoa do id
+        const personIndex = this.state.persons.findIndex(person => {
+            return person.id === id;
         });
+        // Clonamos a pessoa pois iremos editar um campo (nome)
+        const person = { ...this.state.persons[personIndex] }
+        // Editamos o nome no clone
+        person.name = event.target.value;
+        // Obtemos um clone das pessoas todas
+        const persons = [...this.state.persons];
+        // Substituimos a pessoa original, na lista clonada, pelo clone da pessoa com o nome alterado
+        persons[personIndex] = person;
+        // Alteramos a lista de pessoas, para a nova lista, com a nova pessoa editada
+        this.setState({persons: persons});
     }
 
     deletePersonHandler = (personsIndex) => {
@@ -37,6 +45,8 @@ class StateApp extends Component {
                 break;
             case 'Hide':
                 this.setState({ buttonName: 'Show' });
+                break;
+            default:
                 break;
         }
     }
@@ -67,7 +77,9 @@ class StateApp extends Component {
                         return <Person
                             name={person.name}
                             age={person.age}
-                            click={() => this.deletePersonHandler(index)}
+                            click= {() => this.deletePersonHandler(index)}
+                            key={person.id}
+                            changed={(event) => this.nameChangedHandler(event, person.id)}
                         />
                     })}
                 </div>

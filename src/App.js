@@ -6,24 +6,21 @@ import StateApp from './StateApp/StateApp'
 const App = (props) => {
     const [personsState, setPersonsState] = useState({
         persons: [
-            {name: 'João', age: 16},
-            {name: 'Mario', age: 25},
-            {name: 'Carlos', age:4}
+            {id: 1, name: 'João', age: 16},
+            {id: 2, name: 'Mario', age: 25},
+            {id: 3, name: 'Carlos', age:4}
         ]
     });
+
+    const deletePersonHandler = (personIndex) => {
+        const persons = [...personsState.persons];
+        persons.splice(personIndex, 1);
+        setPersonsState({persons: persons});
+    }
 
     const [showPersonState, setShowPersonState] = useState({
         showPersons: false
     });
-
-    const switchNameHandler = (newName) => {
-        setPersonsState({
-            persons: [
-                { name: newName, age: 10 },
-                { name: 'Gaby', age: 40 }
-            ]
-        });
-    }
 
     const togglePersonsHandler = () => {
         const doesShow = showPersonState.showPersons;
@@ -35,10 +32,12 @@ const App = (props) => {
     if (showPersonState.showPersons) {
         persons = (
             <div>
-                {personsState.persons.map(person => {
+                {personsState.persons.map((person, index) => {
                     return <Person
                         name={person.name}
-                        age={person.age} />
+                        age={person.age}
+                        click={() => deletePersonHandler(index)}
+                        key={person.id} />
                 })}
             </div>
         );
