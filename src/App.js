@@ -6,8 +6,9 @@ import StateApp from './StateApp/StateApp'
 const App = (props) => {
     const [personsState, setPersonsState] = useState({
         persons: [
-            { name: 'John', age: 6 },
-            { name: 'Mario', age: 25 }
+            {name: 'João', age: 16},
+            {name: 'Mario', age: 25},
+            {name: 'Carlos', age:4}
         ]
     });
 
@@ -34,13 +35,11 @@ const App = (props) => {
     if (showPersonState.showPersons) {
         persons = (
             <div>
-                <Person
-                    name={personsState.persons[0].name}
-                    age={personsState.persons[0].age}
-                    click={() => switchNameHandler('Gaga')} />
-                <Person
-                    name={personsState.persons[1].name}
-                    age={personsState.persons[1].age} />
+                {personsState.persons.map(person => {
+                    return <Person
+                        name={person.name}
+                        age={person.age} />
+                })}
             </div>
         );
     }
