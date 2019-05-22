@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import Person from '../Person/Person'
+import './App.css';
+import Person from '../components/Persons/Person/Person';
+import Persons from '../components/Persons/Persons'
+import Cockpit from '../components/Cockpit/Cockpit'
 
-class StateApp extends Component {
+class App extends Component {
     state = {
         persons: [
-            {id: 1, name: 'Tiago', age: 10},
-            {id: 2, name: 'Luis', age: 83},
-            {id: 3, name: 'Carlos', age: 21}
+            { id: 1, name: 'Tiago', age: 10 },
+            { id: 2, name: 'Luis', age: 83 },
+            { id: 3, name: 'Carlos', age: 21 }
         ],
-        test: 'Don\'t change',
         showPersons: false,
         buttonName: 'Show'
     }
@@ -27,14 +29,14 @@ class StateApp extends Component {
         // Substituimos a pessoa original, na lista clonada, pelo clone da pessoa com o nome alterado
         persons[personIndex] = person;
         // Alteramos a lista de pessoas, para a nova lista, com a nova pessoa editada
-        this.setState({persons: persons});
+        this.setState({ persons: persons });
     }
 
     deletePersonHandler = (personsIndex) => {
         //const persons = this.state.persons.slice;
         const persons = [...this.state.persons];
         persons.splice(personsIndex, 1);
-        this.setState({persons: persons})
+        this.setState({ persons: persons })
     }
 
     switchButtonNameHandler = () => {
@@ -58,44 +60,28 @@ class StateApp extends Component {
     }
 
     render() {
-
-        const style = {
-            backgroundColor: 'white',
-            font: 'inherit',
-            border: '5px solid blue',
-            borderRadius: '6px',
-            padding: '8px',
-            cursor: 'pointer'
-        }
-
         let persons = null;
 
         if (this.state.showPersons) {
             persons = (
                 <div>
-                    {this.state.persons.map((person, index) => {
-                        return <Person
-                            name={person.name}
-                            age={person.age}
-                            click= {() => this.deletePersonHandler(index)}
-                            key={person.id}
-                            changed={(event) => this.nameChangedHandler(event, person.id)}
-                        />
-                    })}
+                    <Persons 
+                        persons={this.state.persons}
+                        clicked={this.deletePersonHandler}
+                        changed={this.nameChangedHandler} />
                 </div>
             );
         }
 
         return (
-            <div>
-                <button
-                    style={style}
-                    onClick={this.togglePersonsHandler}>{this.state.buttonName} Persons</button>
+            <div className='App'>
+                <Cockpit
+                    onClick={this.togglePersonsHandler}
+                    buttonName={this.state.buttonName} />
                 {persons}
             </div>
         );
     }
-
 }
 
-export default StateApp;
+export default App;
