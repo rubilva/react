@@ -1,35 +1,38 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from '../components/Persons/Person/Person';
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
 
 class App extends Component {
-    state = {
-        persons: [
-            { id: 1, name: 'Tiago', age: 10 },
-            { id: 2, name: 'Luis', age: 83 },
-            { id: 3, name: 'Carlos', age: 21 }
-        ],
-        showPersons: false,
-        buttonName: 'Show'
+    constructor(props) {
+        super(props);
+        console.log('[App.js] constructor');
+        this.state = {
+            persons: [
+                { id: 1, name: 'Tiago', age: 10 },
+                { id: 2, name: 'Luis', age: 83 },
+                { id: 3, name: 'Carlos', age: 21 }
+            ],
+            showPersons: false,
+            buttonName: 'Show'
+        }
+    }
+    
+
+    static getDerivedStateFromProps(props, state) {
+        console.log('[App.js] getDerivedStateFromProps', props);
+        return state;
     }
 
     nameChangedHandler = (event, id) => {
-        // Procuramos a pessoa do id
         const personIndex = this.state.persons.findIndex(person => {
             return person.id === id;
         });
-        // Clonamos a pessoa pois iremos editar um campo (nome)
         const person = { ...this.state.persons[personIndex] }
-        // Editamos o nome no clone
         person.name = event.target.value;
-        // Obtemos um clone das pessoas todas
         const persons = [...this.state.persons];
-        // Substituimos a pessoa original, na lista clonada, pelo clone da pessoa com o nome alterado
         persons[personIndex] = person;
-        // Alteramos a lista de pessoas, para a nova lista, com a nova pessoa editada
-        this.setState({ persons: persons });
+        this.setState({persons: persons});
     }
 
     deletePersonHandler = (personsIndex) => {
@@ -59,7 +62,21 @@ class App extends Component {
         this.switchButtonNameHandler();
     }
 
+    componentDidMount() {
+        console.log('[App.js] componentDidMount');
+    }
+
+    shouldComponentUpdate() {
+        console.log('[App.js] shouldComponentUpdate');
+        return true;
+    }
+
+    componentDidUpdate() {
+        console.log('[App.js] componentDidUpdate');
+    }
+
     render() {
+        console.log('[App.js] render');
         let persons = null;
 
         if (this.state.showPersons) {
@@ -68,7 +85,8 @@ class App extends Component {
                     <Persons 
                         persons={this.state.persons}
                         clicked={this.deletePersonHandler}
-                        changed={this.nameChangedHandler} />
+                        changed={this.nameChangedHandler}
+                    />
                 </div>
             );
         }
@@ -76,8 +94,9 @@ class App extends Component {
         return (
             <div className='App'>
                 <Cockpit
-                    onClick={this.togglePersonsHandler}
-                    buttonName={this.state.buttonName} />
+                    clicked={this.togglePersonsHandler}
+                    buttonName={this.state.buttonName}
+                />
                 {persons}
             </div>
         );
